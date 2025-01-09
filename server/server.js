@@ -1,54 +1,42 @@
-const express = require('express')
-const app = express()
-const mongoose = require('mongoose')
-require('dotenv').config()
+const express = require('express');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-const bodyParser = require('body-parser')
+const { xss } = require('express-xss-sanitizer');
+const mongoSanitize = require('express-mongo-sanitize');
+const passport = require('passport');
+const { jwtStrategy } = require('./middleware/passport');
+const { handleError, convertToApiError } = require('./middleware/apiError');
+const routes = require('./routes');
 
-const { xss } = require('express-xss-sanitizer')
-const mongoSanitize = require('express-mongo-sanitize')
+const app = express();
 
-const routes = require('./routes')
+// MongoDB Connection
+const mongoUri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}?retryWrites=true&w=majority&appName=Flickbase`;
+mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => {
+      console.error('Failed to connect to MongoDB:', err.message);
+      process.exit(1);
+  });
 
-const passport = require('passport')
-const { jwtStrategy } = require('./middleware/passport')
-const { handleError, convertToApiError} = require('./middleware/apiError')
+// Middleware
+app.use(express.json());
+app.use(xss());
+app.use(mongoSanitize());
 
-const mongoUri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}?retryWrites=true&w=majority&appName=Flickbase` 
+// Passport
+app.use(passport.initialize());
+passport.use('jwt', jwtStrategy);
 
-mongoose.connect(mongoUri)
+// Routes
+app.use('/api', routes);
 
-//Parsing
-app.use(bodyParser.json())
+// Error Handling
+app.use(convertToApiError);
+app.use((err, req, res, next) => {
+    handleError(err, res);
+});
 
-//Sanitize
-app.use(xss())
-app.use(mongoSanitize())
-
-//Passport
-app.use(passport.initialize())
-passport.use('jwt',jwtStrategy)
-
-//Routes
-app.use('/api', routes)
-
-//Error Handling
-app.use(convertToApiError)
-app.use((err,req,res,next)=>{
-    handleError(err,res)
-})
-
-app.use(express.static('client/build'))
-if(process.env.NODE_ENV === 'production')
-{
-    const path = require('path')
-
-    app.get('/*',(req,res)=>{
-        res.sendFile(path.resolve(__dirname,'../client','build','index.html'))
-    })
-}
-
-const port = process.env.PORT || 3001
-app.listen(port,()=>{
-    console.log(`server running on port ${port}`)
-})
+// Export app for Vercel
+module.exports = app;
