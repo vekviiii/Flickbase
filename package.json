@@ -12,7 +12,7 @@
     "heroku-postbuild":"npm install --prefix client && npm run build --prefix"
   },
   "engines": {
-    "node": "16.x"
+    "node": "22.x"
   },
   "author": "",
   "license": "ISC",
