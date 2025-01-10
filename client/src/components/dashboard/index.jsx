@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom"
-import AdminLayout from "../../hoc/adminlayout"
+import AdminLayout from "../../hoc/adminLayout"
 
 const Dashboard = () => {
     return(
