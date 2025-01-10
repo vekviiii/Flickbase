@@ -35,7 +35,6 @@ app.use('/api', apiRoutes);
 
 module.exports = app;
 
-
 // Error Handling
 app.use(convertToApiError);
 app.use((err, req, res, next) => {
