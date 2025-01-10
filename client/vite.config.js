@@ -8,7 +8,7 @@ export default defineConfig({
   server:{
     proxy: {
       '/api': {  // use /api without quotes
-        target: "http://127.0.0.1:3001",
+        target: process.env.URL_CLIENT,
         changeOrigin: true,
         secure: false,
       }
