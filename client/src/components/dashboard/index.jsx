@@ -6,7 +6,7 @@ const Dashboard = () => {
         <AdminLayout>
             <Outlet />
         </AdminLayout>
-    )
+    ) 
 }
 
 export default Dashboard
