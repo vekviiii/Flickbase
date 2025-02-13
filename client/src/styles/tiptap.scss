@@ -1,4 +1,8 @@
 .tiptap {
+  border-radius: 4px;
+  padding: 16.5px 14px;
+  border: 1px solid var(--bs-gray-500);
+  
   > * + * {
     margin-top: 0.75em;
   }
@@ -7,9 +11,6 @@
   ol {
     padding: 0 1rem;
   }
-  border-radius: 4px;
-  padding: 16.5px 14px;
-  border: 1px solid var(--bs-gray-500);
 }
 
 .bubble-menu {

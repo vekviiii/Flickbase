@@ -23,7 +23,6 @@ export const registerUser = createAsyncThunk(
     }
 )
 
-
 export const signInUser = createAsyncThunk(
     'users/signInUser',
     async({email,password}, {dispatch})=>{
@@ -31,7 +30,7 @@ export const signInUser = createAsyncThunk(
             const request = await axios.post('/api/auth/signin',{
                 email:email,
                 password: password
-            })
+            })     
 
             dispatch(successGlobal('Welcome !!!'))
             return {data: request.data.user,auth:true}
@@ -41,7 +40,6 @@ export const signInUser = createAsyncThunk(
         }
     }
 )
-
 
 export const isAuth = createAsyncThunk(
     'users/isAuth',

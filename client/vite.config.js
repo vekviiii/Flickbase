@@ -9,11 +9,15 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {  // proxying /api requests
-        target: process.env.URL_CLIENT,
+        target: "https://flickbase-mu.vercel.app",
         changeOrigin: true,
-        secure: false,
+        secure: true,
       }
     }
+  },
+  cors: {
+    origin: '*',  // Allow all origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
   },
   optimizeDeps: {
     esbuildOptions: {
