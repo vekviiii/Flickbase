@@ -44,9 +44,3 @@ app.use((err, req, res, next) => {
 app.get('/', (req, res) => {
     res.send('Hello, Vivek :)');
 });
-
-const cors = require('cors');
-app.use(cors({ 
-    origin: ['http://localhost:5173', 'https://flickbase-beginning.vercel.app'], 
-    credentials: true 
-  }));  
