@@ -19,6 +19,7 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['moment', 'moment-duration-format'],
+    exclude: ['lodash'],
     esbuildOptions: {
       plugins: [esbuildCommonjs(['moment', 'moment-duration-format'])]
     }
