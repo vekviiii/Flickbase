@@ -2,13 +2,11 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { esbuildCommonjs } from '@originjs/vite-plugin-commonjs';
 
-
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': {  // proxying /api requests
+      '/api': {
         target: "https://flickbase-mu.vercel.app",
         changeOrigin: true,
         secure: true,
@@ -16,15 +14,16 @@ export default defineConfig({
     }
   },
   cors: {
-    origin: '*',  // Allow all origins
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   },
   optimizeDeps: {
+    include: ['moment', 'moment-duration-format'],
     esbuildOptions: {
-      plugins: [esbuildCommonjs(['react-moment'])]
+      plugins: [esbuildCommonjs(['moment', 'moment-duration-format'])]
     }
   },
   build: {
-    sourcemap: true, // Enable source maps for production builds
+    sourcemap: true,
   },
 });
