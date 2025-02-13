@@ -15,6 +15,10 @@ export default defineConfig({
       }
     }
   },
+  cors: {
+    origin: '*',  // Allow all origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  },
   optimizeDeps: {
     esbuildOptions: {
       plugins: [esbuildCommonjs(['react-moment'])]
