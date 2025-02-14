@@ -69,9 +69,11 @@ export const getPaginateArticles = createAsyncThunk(
                     page, 
                     limit, 
                     keywords
-                }
-                ,getAuthHeader()
-                ,withCredentials: true)
+                },
+                {
+                    ...getAuthHeader(),
+                    withCredentials: true
+                })
             return request.data
         } catch (error) {
             dispatch(errorGlobal(error.response.data.message))
