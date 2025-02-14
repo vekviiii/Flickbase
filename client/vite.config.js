@@ -17,13 +17,6 @@ export default defineConfig({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   },
-  optimizeDeps: {
-    include: ['moment', 'moment-duration-format'],
-    exclude: ['lodash'],
-    esbuildOptions: {
-      plugins: [esbuildCommonjs(['moment', 'moment-duration-format'])]
-    }
-  },
   build: {
     sourcemap: true,
   },

@@ -1,6 +1,5 @@
 import { Table, Pagination } from "react-bootstrap";
 import { Loader } from "../../../utils/tools";
-import Moment from 'react-moment'
 
 const PaginateComponent = ({
     articles, goToEdit, goToNextPage, goToPrevPage, handleStatusChange, handleShow
@@ -25,7 +24,7 @@ const PaginateComponent = ({
                             <tbody>
                                 { articles.docs.map(item=>(
                                     <tr key={item._id}>
-                                        <td><Moment to={item.date}></Moment></td>
+                                        <td> 1-2-2024 </td>
                                         <td>{item.title}</td>
                                         <td>{item.score}</td>
                                         <td className="action_btn remove_btn"
