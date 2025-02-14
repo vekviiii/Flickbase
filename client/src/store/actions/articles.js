@@ -5,11 +5,15 @@ import { getAuthHeader } from "../../utils/tools";
 import axios from "axios";
 import { updateCategories } from "../reducers/articles";
 
+const BASE_URL = import.meta.env.DEV 
+  ? '/api' 
+  : 'https://flickbase-mu.vercel.app/api';
+
 export const addArticle = createAsyncThunk(
     'articles/addArticle',
     async(article,{dispatch})=>{
         try {
-            const request = await axios.post(`/api/articles`, article, getAuthHeader())
+            const request = await axios.post(`${BASE_URL}/articles`, article, getAuthHeader())
             dispatch(successGlobal('Post Created!!!'))
             return request.data
         } catch (error) {
@@ -26,7 +30,7 @@ export const updateArticle = createAsyncThunk(
     'articles/updateArticle',
     async({values, articleId},{dispatch})=>{
         try {
-            await axios.patch(`/api/articles/article/${articleId}`, values, getAuthHeader())
+            await axios.patch(`${BASE_URL}/articles/article/${articleId}`, values, getAuthHeader())
             dispatch(successGlobal('Article Updated !!!'))
             return true
         } catch (error) {
@@ -43,7 +47,7 @@ export const getAdminArticle = createAsyncThunk(
     'articles/getAdminArticle',
     async(_id,{dispatch})=>{
         try {
-            const request = await axios.get(`/api/articles/article/${_id}`, getAuthHeader())
+            const request = await axios.get(`${BASE_URL}/articles/article/${_id}`, getAuthHeader())
             return request.data
         } catch (error) {
             dispatch(errorGlobal(error.response.data.message))
@@ -59,7 +63,7 @@ export const getPaginateArticles = createAsyncThunk(
     'articles/getPaginateArticles',
     async({page=1, limit=4, keywords=''},{dispatch})=>{
         try {
-            const request = await axios.post(`/api/articles/admin/paginate`, 
+            const request = await axios.post(`${BASE_URL}/articles/admin/paginate`, 
                 {
                     page, 
                     limit, 
@@ -80,7 +84,7 @@ export const getCategories = createAsyncThunk(
     'articles/getCategories',
     async(obj,{dispatch})=>{
         try {
-            const request = await axios.get(`/api/articles/categories`, getAuthHeader())
+            const request = await axios.get(`${BASE_URL}/articles/categories`, getAuthHeader())
             return request.data
         } catch (error) {
             dispatch(errorGlobal(error.response.data.message))
@@ -94,7 +98,7 @@ export const addCategories = createAsyncThunk(
     'articles/addCategories',
     async(data,{dispatch, getState})=>{
         try {
-            const category = await axios.post(`/api/articles/categories`, data, getAuthHeader())
+            const category = await axios.post(`${BASE_URL}/articles/categories`, data, getAuthHeader())
             
             const state = getState().articles.categories
 
@@ -117,7 +121,7 @@ export const removeArticle = createAsyncThunk(
     'articles/removeArticle',
     async(_id,{dispatch,getState})=>{
         try {
-            await axios.delete(`/api/articles/article/${_id}`, getAuthHeader())
+            await axios.delete(`${BASE_URL}/articles/article/${_id}`, getAuthHeader())
             dispatch(successGlobal('Article Removed'))
 
             let page = getState().articles.adminArticles.page
@@ -135,7 +139,7 @@ export const changeStatusArticle = createAsyncThunk(
     'articles/changeStatusArticle',
     async({newStatus,_id},{dispatch, getState})=>{
         try {
-            const request = await axios.patch(`/api/articles/article/${_id}`,
+            const request = await axios.patch(`${BASE_URL}/articles/article/${_id}`,
                  {status: newStatus},
                  getAuthHeader())
 
@@ -159,10 +163,6 @@ export const changeStatusArticle = createAsyncThunk(
     }
 )
 
-const BASE_URL = import.meta.env.DEV 
-  ? '/api' 
-  : 'https://flickbase-mu.vercel.app/api';
-
 export const homeLoadMore = createAsyncThunk(
     'articles/homeLoadMore',
     async(sort,{dispatch, getState})=>{
@@ -185,7 +185,7 @@ export const getArticle = createAsyncThunk(
     'articles/getArticle',
     async(id,{dispatch})=>{
         try {
-            const request = await axios.get(`/api/articles/users/article/${id}`)
+            const request = await axios.get(`${BASE_URL}/articles/users/article/${id}`)
 
             return request.data
         } catch (error) {

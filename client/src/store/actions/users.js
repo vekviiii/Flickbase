@@ -5,11 +5,15 @@ import { getAuthHeader, removeTokenCookie } from "../../utils/tools";
 import axios from "axios";
 import { setVerify } from "../reducers/users";
 
+const BASE_URL = import.meta.env.DEV 
+  ? '/api' 
+  : 'https://flickbase-mu.vercel.app/api';
+
 export const registerUser = createAsyncThunk(
     'users/registerUser',
     async({email,password}, {dispatch})=>{
         try {
-            const request = await axios.post('/api/auth/register',{
+            const request = await axios.post(`${BASE_URL}/auth/register`,{
                 email:email,
                 password: password
             })
@@ -23,18 +27,15 @@ export const registerUser = createAsyncThunk(
     }
 )
 
-const BASE_URL = import.meta.env.DEV 
-  ? '/api' 
-  : 'https://flickbase-mu.vercel.app/api';
 
 export const signInUser = createAsyncThunk(
     'users/signInUser',
     async({email,password}, {dispatch})=>{
         try {
-            const request = await axios.post(`${BASE_URL}/auth/signin`, {
-                email: email,
+            const request = await axios.post(`${BASE_URL}/auth/signin`,{
+                email:email,
                 password: password
-              });                  
+            })
 
             dispatch(successGlobal('Welcome !!!'))
             return {data: request.data.user,auth:true}
@@ -45,11 +46,12 @@ export const signInUser = createAsyncThunk(
     }
 )
 
+
 export const isAuth = createAsyncThunk(
     'users/isAuth',
     async()=>{
         try {
-            const request = await axios.get('/api/auth/isauth',getAuthHeader())
+            const request = await axios.get(`${BASE_URL}/auth/isauth`,getAuthHeader())
 
             return {  data: request.data, auth: true}
         } catch (error) {
@@ -70,7 +72,7 @@ export const accountVerify = createAsyncThunk(
     async(token,{dispatch,getState})=>{
         try {
             const user = getState().users.auth
-            await axios.get(`/api/users/verify?validation=${token}`)
+            await axios.get(`${BASE_URL}/users/verify?validation=${token}`)
 
             if(user)
             {
@@ -90,7 +92,7 @@ export const changeEmail = createAsyncThunk(
     'users/changeEmail',
     async(data,{dispatch})=>{
         try {
-            const request = await axios.patch(`/api/users/email`, {
+            const request = await axios.patch(`${BASE_URL}/users/email`, {
                 email:data.email,
                 newemail:data.newemail
             }, getAuthHeader())
@@ -113,7 +115,7 @@ export const updateUserProfile = createAsyncThunk(
     'users/updateUserProfile',
     async(data,{dispatch})=>{
         try {
-            const profile = await axios.patch(`/api/users/profile`,data , getAuthHeader())
+            const profile = await axios.patch(`${BASE_URL}/users/profile`,data , getAuthHeader())
 
             dispatch(successGlobal('Profile updated !!'))
 
