@@ -63,6 +63,7 @@ export const getPaginateArticles = createAsyncThunk(
     'articles/getPaginateArticles',
     async({page=1, limit=4, keywords=''},{dispatch})=>{
         try {
+            console.log(getAuthHeader());
             const request = await axios.post(`${BASE_URL}/articles/admin/paginate`, 
                 {
                     page, 

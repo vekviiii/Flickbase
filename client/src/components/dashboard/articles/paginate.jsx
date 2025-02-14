@@ -24,7 +24,7 @@ const PaginateComponent = ({
                             <tbody>
                                 { articles.docs.map(item=>(
                                     <tr key={item._id}>
-                                        <td> 1-2-2024 </td>
+                                        <td> {item.date} </td>
                                         <td>{item.title}</td>
                                         <td>{item.score}</td>
                                         <td className="action_btn remove_btn"

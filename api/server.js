@@ -29,7 +29,7 @@ app.use(mongoSanitize());
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
 
-//CORS
+// CORS
 const cors = require('cors');
 app.use(cors({
   origin: ['https://flickbase-beginning.vercel.app', 'http://localhost:5173'],
@@ -37,11 +37,14 @@ app.use(cors({
   credentials: true
 }));
 
+// Root Route
+app.get('/', (req, res) => {
+    res.send('Hello, Vivek :)');
+});
+
 // Combine all routes into one app
 const apiRoutes = require('./routes');
 app.use('/api', apiRoutes);
-
-module.exports = app;
 
 // Error Handling
 app.use(convertToApiError);
@@ -49,6 +52,4 @@ app.use((err, req, res, next) => {
     handleError(err, res);
 });
 
-app.get('/', (req, res) => {
-    res.send('Hello, Vivek :)');
-});
+module.exports = app;
