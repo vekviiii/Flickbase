@@ -23,14 +23,18 @@ export const registerUser = createAsyncThunk(
     }
 )
 
+const BASE_URL = import.meta.env.DEV 
+  ? '/api' 
+  : 'https://flickbase-mu.vercel.app/api';
+
 export const signInUser = createAsyncThunk(
     'users/signInUser',
     async({email,password}, {dispatch})=>{
         try {
-            const request = await axios.post('/api/auth/signin',{
-                email:email,
+            const request = await axios.post(`${BASE_URL}/auth/signin`, {
+                email: email,
                 password: password
-            })     
+              });                  
 
             dispatch(successGlobal('Welcome !!!'))
             return {data: request.data.user,auth:true}

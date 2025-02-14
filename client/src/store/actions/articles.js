@@ -159,11 +159,15 @@ export const changeStatusArticle = createAsyncThunk(
     }
 )
 
+const BASE_URL = import.meta.env.DEV 
+  ? '/api' 
+  : 'https://flickbase-mu.vercel.app/api';
+
 export const homeLoadMore = createAsyncThunk(
     'articles/homeLoadMore',
     async(sort,{dispatch, getState})=>{
         try {
-            const articles = await axios.post(`/api/articles/all`, sort)
+            const articles = await axios.post(`${BASE_URL}/articles/all`, sort)
             const state = getState().articles.articles
 
             const prevState = [...state]
