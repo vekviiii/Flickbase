@@ -12,10 +12,6 @@ export default defineConfig({
       }
     }
   },
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  },
   build: {
     sourcemap: true,
   },

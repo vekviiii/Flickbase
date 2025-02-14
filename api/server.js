@@ -35,6 +35,13 @@ app.use('/api', apiRoutes);
 
 module.exports = app;
 
+const cors = require('cors');
+app.use(cors({
+  origin: ['https://flickbase-beginning.vercel.app', 'http://localhost:5173'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 // Error Handling
 app.use(convertToApiError);
 app.use((err, req, res, next) => {
