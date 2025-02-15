@@ -85,14 +85,11 @@ export const getPaginateArticles = createAsyncThunk(
                     keywords
                 },
                 {
-                    ...getAuthHeader(),
                     withCredentials: true  // Include cookies with the request
                 })
             return request.data
         } catch (error) {
             dispatch(errorGlobal(error.response.data.message))
-            console.log('error is here')
-            console.log('article:', article)
             throw error
         }
     }
