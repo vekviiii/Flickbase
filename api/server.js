@@ -39,7 +39,7 @@ app.use(cors({
 
 // Root Route
 app.get('/', (req, res) => {
-    res.send('Hello, Vivek :) (1.3)');
+    res.send('Hello, Vivek :) (1.4)');
 });
 
 // Combine all routes into one app

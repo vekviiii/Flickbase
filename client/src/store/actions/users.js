@@ -54,7 +54,11 @@ export const isAuth = createAsyncThunk(
     'users/isAuth',
     async()=>{
         try {
-            const request = await axios.get(`${BASE_URL}/auth/isauth`,getAuthHeader())
+            const request = await axios.get(`${BASE_URL}/auth/isauth`, {
+                ...getAuthHeader(),
+                withCredentials: true  // Include cookies with the request
+              });
+              
 
             return {  data: request.data, auth: true}
         } catch (error) {
