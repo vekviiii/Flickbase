@@ -13,14 +13,11 @@ const authController = {
             await emailService.registerEmail(email, user)
 
 
-            res.cookie('x-access-token', token, {
-                httpOnly: true,  // Prevents JavaScript access (more secure)
-                secure: process.env.NODE_ENV === 'production', // Use HTTPS in production (Vercel enforces HTTPS)
-                sameSite: 'none', // Allows cross-origin cookies
-                path: '/'
-              })
-              .status(httpStatus.CREATED)
-              .send({ user, token });
+            res.cookie('x-access-token', token)
+            .status(httpStatus.CREATED).send({
+                user,
+                token
+            })
 
         }catch(error)
         {
@@ -31,20 +28,21 @@ const authController = {
     async signin(req,res,next)
     {
         try {
+            console.log("hereeeee")
             const { email, password } = req.body
             const user = await authService.signInWithEmailAndPassword(email, password)
             const token = await authService.genAuthToken(user)
+
+            console.log("(server) user", user)
+            console.log("(server) token", token)
             
-            res.cookie('x-access-token', token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'none',
-                path: '/'
-              })
-              .status(httpStatus.CREATED)
-              .send({ user, token });
+            res.cookie('x-access-token', token).send({
+                user,
+                token
+            })
 
         } catch (error) {
+            console.error("hereeeee")
             next(error)
         }
     },
