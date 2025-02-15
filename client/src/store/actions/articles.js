@@ -13,7 +13,11 @@ export const addArticle = createAsyncThunk(
     'articles/addArticle',
     async(article,{dispatch})=>{
         try {
-            const request = await axios.post(`${BASE_URL}/articles`, article, getAuthHeader())
+            const request = await axios.post(`${BASE_URL}/articles`, article,
+            {
+                ...getAuthHeader(),
+                withCredentials: true  // Include cookies with the request
+            })
             dispatch(successGlobal('Post Created!!!'))
             return request.data
         } catch (error) {
@@ -30,7 +34,12 @@ export const updateArticle = createAsyncThunk(
     'articles/updateArticle',
     async({values, articleId},{dispatch})=>{
         try {
-            await axios.patch(`${BASE_URL}/articles/article/${articleId}`, values, getAuthHeader())
+            await axios.patch(`${BASE_URL}/articles/article/${articleId}`, values,
+            {
+                ...getAuthHeader(),
+                withCredentials: true  // Include cookies with the request
+            }
+            )
             dispatch(successGlobal('Article Updated !!!'))
             return true
         } catch (error) {
@@ -47,7 +56,12 @@ export const getAdminArticle = createAsyncThunk(
     'articles/getAdminArticle',
     async(_id,{dispatch})=>{
         try {
-            const request = await axios.get(`${BASE_URL}/articles/article/${_id}`, getAuthHeader())
+            const request = await axios.get(`${BASE_URL}/articles/article/${_id}`,
+            {
+                ...getAuthHeader(),
+                withCredentials: true  // Include cookies with the request
+            }
+            )
             return request.data
         } catch (error) {
             dispatch(errorGlobal(error.response.data.message))
@@ -72,7 +86,7 @@ export const getPaginateArticles = createAsyncThunk(
                 },
                 {
                     ...getAuthHeader(),
-                    withCredentials: true
+                    withCredentials: true  // Include cookies with the request
                 })
             return request.data
         } catch (error) {
@@ -88,7 +102,12 @@ export const getCategories = createAsyncThunk(
     'articles/getCategories',
     async(obj,{dispatch})=>{
         try {
-            const request = await axios.get(`${BASE_URL}/articles/categories`, getAuthHeader())
+            const request = await axios.get(`${BASE_URL}/articles/categories`,
+            {
+                ...getAuthHeader(),
+                withCredentials: true  // Include cookies with the request
+            }
+            )
             return request.data
         } catch (error) {
             dispatch(errorGlobal(error.response.data.message))
@@ -102,7 +121,12 @@ export const addCategories = createAsyncThunk(
     'articles/addCategories',
     async(data,{dispatch, getState})=>{
         try {
-            const category = await axios.post(`${BASE_URL}/articles/categories`, data, getAuthHeader())
+            const category = await axios.post(`${BASE_URL}/articles/categories`, data,
+            {
+                ...getAuthHeader(),
+                withCredentials: true  // Include cookies with the request
+            }
+            )
             
             const state = getState().articles.categories
 
@@ -125,7 +149,12 @@ export const removeArticle = createAsyncThunk(
     'articles/removeArticle',
     async(_id,{dispatch,getState})=>{
         try {
-            await axios.delete(`${BASE_URL}/articles/article/${_id}`, getAuthHeader())
+            await axios.delete(`${BASE_URL}/articles/article/${_id}`,
+            {
+                ...getAuthHeader(),
+                withCredentials: true  // Include cookies with the request
+            }
+            )
             dispatch(successGlobal('Article Removed'))
 
             let page = getState().articles.adminArticles.page
@@ -145,7 +174,10 @@ export const changeStatusArticle = createAsyncThunk(
         try {
             const request = await axios.patch(`${BASE_URL}/articles/article/${_id}`,
                  {status: newStatus},
-                 getAuthHeader())
+                 {
+                    ...getAuthHeader(),
+                    withCredentials: true  // Include cookies with the request
+                })
 
             let article = request.data
             //// previous state

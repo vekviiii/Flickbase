@@ -102,7 +102,11 @@ export const changeEmail = createAsyncThunk(
             const request = await axios.patch(`${BASE_URL}/users/email`, {
                 email:data.email,
                 newemail:data.newemail
-            }, getAuthHeader())
+            },
+            {
+                ...getAuthHeader(),
+                withCredentials: true  // Include cookies with the request
+            })
 
             dispatch(successGlobal('Email updated !!'))
 
@@ -122,7 +126,12 @@ export const updateUserProfile = createAsyncThunk(
     'users/updateUserProfile',
     async(data,{dispatch})=>{
         try {
-            const profile = await axios.patch(`${BASE_URL}/users/profile`,data , getAuthHeader())
+            const profile = await axios.patch(`${BASE_URL}/users/profile`,data,
+            {
+                ...getAuthHeader(),
+                withCredentials: true  // Include cookies with the request
+            }
+            )
 
             dispatch(successGlobal('Profile updated !!'))
 
