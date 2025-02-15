@@ -39,7 +39,15 @@ export const showToast = (type, msg) => {
 export const getTokenCookie = () => cookie.load('x-access-token')
 export const removeTokenCookie = () => cookie.remove('x-access-token',{path:'/'})
 export const getAuthHeader = () => {
-    return { headers:{'Authorization':`Bearer ${getTokenCookie()}`}}
+    try
+    {
+        console.log("getTokenCookie", getTokenCookie())
+        return { headers:{'Authorization':`Bearer ${getTokenCookie()}`}}
+    }
+    catch(error)
+    {
+        throw error
+    }
 }
 
 export const AdminTitle = ({title}) => (
