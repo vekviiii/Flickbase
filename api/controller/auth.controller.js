@@ -31,14 +31,16 @@ const authController = {
             const { email, password } = req.body
             const user = await authService.signInWithEmailAndPassword(email, password)
             const token = await authService.genAuthToken(user)
-
-            console.log("(server) user", user)
-            console.log("(server) token", token)
             
-            res.cookie('x-access-token', token).send({
+            res.cookie('x-access-token', token, {
+                httpOnly: true,   // Can't be accessed by JavaScript
+                secure: process.env.NODE_ENV === 'production', // Sent only over HTTPS in production
+                sameSite: 'none', // Required for cross-origin cookies
+                path: '/'
+              }).send({
                 user,
                 token
-            })
+              });              
 
         } catch (error) {
             next("Here is the error", error)

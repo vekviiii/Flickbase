@@ -35,6 +35,9 @@ export const signInUser = createAsyncThunk(
             const request = await axios.post(`${BASE_URL}/auth/signin`,{
                 email:email,
                 password: password
+            },
+            {
+                withCredentials: true
             })
 
             dispatch(successGlobal('Welcome !!!'))
@@ -51,7 +54,6 @@ export const isAuth = createAsyncThunk(
     'users/isAuth',
     async()=>{
         try {
-            console.log("getAuthHeader", getAuthHeader())
             const request = await axios.get(`${BASE_URL}/auth/isauth`,getAuthHeader())
 
             return {  data: request.data, auth: true}
