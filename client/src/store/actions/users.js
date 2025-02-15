@@ -51,6 +51,7 @@ export const isAuth = createAsyncThunk(
     'users/isAuth',
     async()=>{
         try {
+            console.log("getAuthHeader", getAuthHeader())
             const request = await axios.get(`${BASE_URL}/auth/isauth`,getAuthHeader())
 
             return {  data: request.data, auth: true}

@@ -41,7 +41,6 @@ export const removeTokenCookie = () => cookie.remove('x-access-token',{path:'/'}
 export const getAuthHeader = () => {
     try
     {
-        console.log("getTokenCookie", getTokenCookie())
         return { headers:{'Authorization':`Bearer ${getTokenCookie()}`}}
     }
     catch(error)
