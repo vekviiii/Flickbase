@@ -52,4 +52,8 @@ app.use((err, req, res, next) => {
     handleError(err, res);
 });
 
+app.use(cookieParser());       // Parse cookies from incoming requests
+app.use(express.json());       // Parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+
 module.exports = app;
