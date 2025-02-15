@@ -1,10 +1,12 @@
+// Load Environment Variables and Required Modules
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-require('dotenv').config();
-
+const cors = require('cors');
 const { xss } = require('express-xss-sanitizer');
 const mongoSanitize = require('express-mongo-sanitize');
 const passport = require('passport');
+const cookieParser = require('cookie-parser');   // Move this up
 const { jwtStrategy } = require('./middleware/passport');
 const { handleError, convertToApiError } = require('./middleware/apiError');
 const routes = require('./routes');
@@ -20,8 +22,17 @@ mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
         process.exit(1);
     });
 
+// CORS
+app.use(cors({
+  origin: ['https://flickbase-beginning.vercel.app', 'http://localhost:5173'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 // Middleware
+app.use(cookieParser());       // Moved up to make cookies available for all routes
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(xss());
 app.use(mongoSanitize());
 
@@ -29,31 +40,18 @@ app.use(mongoSanitize());
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
 
-// CORS
-const cors = require('cors');
-app.use(cors({
-  origin: ['https://flickbase-beginning.vercel.app', 'http://localhost:5173'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));
-
 // Root Route
 app.get('/', (req, res) => {
     res.send('Hello, Vivek :)');
 });
 
 // Combine all routes into one app
-const apiRoutes = require('./routes');
-app.use('/api', apiRoutes);
+app.use('/api', routes);
 
 // Error Handling
 app.use(convertToApiError);
 app.use((err, req, res, next) => {
     handleError(err, res);
 });
-
-// app.use(cookieParser());       // Parse cookies from incoming requests
-// app.use(express.json());       // Parse JSON bodies
-// app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 module.exports = app;

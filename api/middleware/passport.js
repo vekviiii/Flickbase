@@ -6,8 +6,10 @@ const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 const cookieExtractor = (req) => {
     let token = null;
     if (req && req.cookies) {
-        token = req.cookies['x-access-token'];  // Extract from cookie
+        console.log('Cookies:', req.cookies);  // Log all cookies
+        token = req.cookies['x-access-token'];
     }
+    console.log('Extracted Token:', token);   // Log extracted token
     return token;
 }
 
