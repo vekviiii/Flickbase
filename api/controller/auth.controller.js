@@ -14,14 +14,14 @@ const authController = {
 
 
             res.cookie('x-access-token', token, {
-                httpOnly: true,   // Can't be accessed by JavaScript
-                secure: process.env.NODE_ENV === 'production', // Sent only over HTTPS in production
-                sameSite: 'none', // Required for cross-origin cookies
-                path: '/'
-              }).send({
+                httpOnly: true,   // Secure, prevents JavaScript access
+                secure: process.env.NODE_ENV === 'production', // Only over HTTPS
+                sameSite: 'None', // Required for cross-origin
+                path: '/'         // Available across the whole site
+              }).status(httpStatus.CREATED).send({
                 user,
                 token
-              });
+              });              
 
         }catch(error)
         {
@@ -37,14 +37,14 @@ const authController = {
             const token = await authService.genAuthToken(user)
             
             res.cookie('x-access-token', token, {
-                httpOnly: true,   // Can't be accessed by JavaScript
-                secure: process.env.NODE_ENV === 'production', // Sent only over HTTPS in production
-                sameSite: 'none', // Required for cross-origin cookies
-                path: '/'
-              }).send({
+                httpOnly: true,   // Secure, prevents JavaScript access
+                secure: process.env.NODE_ENV === 'production', // Only over HTTPS
+                sameSite: 'None', // Required for cross-origin
+                path: '/'         // Available across the whole site
+              }).status(httpStatus.CREATED).send({
                 user,
                 token
-              });              
+              });                           
 
         } catch (error) {
             next("Here is the error", error)
