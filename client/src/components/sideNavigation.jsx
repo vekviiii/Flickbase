@@ -40,17 +40,6 @@ const SideDrawer = ({users,signOutUser}) => {
                         <ListItemText primary="Home" />
                     </ListItemButton>
 
-                    <ListItemButton
-                        component={RouterLink}
-                        to="/"
-                        onClick={()=> setState(false)}
-                    >
-                        <ListItemIcon>
-                            <MailIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary="Contact" />
-                    </ListItemButton>
-
 
                     { users.auth ? 
                     <ListItemButton

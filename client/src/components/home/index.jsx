@@ -21,7 +21,7 @@ const Home = () => {
 
   const getNextArticles = () => {
     let skip = articles.homeSort.skip + articles.homeSort.limit
-    dispatch(homeLoadMore({...articles.homeSort}))
+    dispatch(homeLoadMore({...articles.homeSort, skip: skip}))
   }
 
 

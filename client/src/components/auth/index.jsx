@@ -22,8 +22,8 @@ const Auth = () => {
 
     const formik = useFormik({
         initialValues:{
-            email: 'vivekkumar124356@gmail.com',
-            password: 'testing123'
+            email: '',
+            password: ''
         },
         validationSchema: Yup.object({
             email: Yup.string()
@@ -57,7 +57,7 @@ const Auth = () => {
     return (
         <PreventSignIn users={users}>
             <div className='auth_container'>
-                <h1>Register</h1>
+                <h1>{ register ? "Register" : "Login"}</h1>
                 { users.loading ? 
                     <Loader/>
                 :

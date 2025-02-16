@@ -22,8 +22,6 @@ export const addArticle = createAsyncThunk(
             return request.data
         } catch (error) {
             dispatch(errorGlobal(error.response.data.message))
-            console.log('error is here')
-            console.log('article:', article)
             throw error
         }
     }
@@ -44,8 +42,6 @@ export const updateArticle = createAsyncThunk(
             return true
         } catch (error) {
             dispatch(errorGlobal(error.response.data.message))
-            console.log('error is here')
-            console.log('article:', article)
             throw error
         }
     }
@@ -65,8 +61,6 @@ export const getAdminArticle = createAsyncThunk(
             return request.data
         } catch (error) {
             dispatch(errorGlobal(error.response.data.message))
-            console.log('error is here')
-            console.log('article:', article)
             throw error
         }
     }
@@ -77,7 +71,6 @@ export const getPaginateArticles = createAsyncThunk(
     'articles/getPaginateArticles',
     async({page=1, limit=4, keywords=''},{dispatch})=>{
         try {
-            console.log(getAuthHeader());
             const request = await axios.post(`${BASE_URL}/articles/admin/paginate`, 
                 {
                     page, 
